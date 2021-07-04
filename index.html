@@ -1,325 +1,592 @@
-// Globals
-var XAXIS = [];
-var YAXIS = [];
-var XAVG = 0;
-var YAVG = 0;
-var ALLFALSE = false;
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="The Data Standard Programmatic Compass Test">
+        <meta name="keywords" content="The Data Standard, Programmatic Compass Test">
+        <meta name="author" content="Joseph Fallon, Koosha Jadbabaei">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name='Title' content='The Programmatic Compass Test'>
 
-// Share Links
-window.onload = setShareLinks();
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js"></script>
+        <!--D3 & JQuery-->
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="jquery-3.5.1.min.js"></script>
+        <!--Send to Google Sheets-->
 
-function setShareLinks() {
-    var pageUrl = encodeURIComponent(document.URL);
-    var description = document.querySelector("meta[name='description']").getAttribute("content");
-    var description = encodeURIComponent(description);
+    </head>
+    <body>
+        <header>
+            <div id="logoAndTitle">
+                <a href='https://datastandard.io/'>
+                    <img id="logo" src="images/logo.png" alt="The Data Standard"></img>  <!--LINK TO SITE-->
+                </a>
+                <br>
+                <h1 id="Title">The Programmatic Compass Test</h1>
+            </div>
+            <h2 id="subtitle">
+                Calling all data scientists and enthusiasts… Welcome to the Data Standard’s Programmatic Compass Test! Please complete the survey to discover what kind of data scientist you are and to suggest development areas as you continue to build your data science career.  Please feel free to share and discuss with your colleagues.
+            <h2 id="subtitle1">
+                The Data Standard is the premier community of accomplished data enthusiasts and thought leaders. The Data Standard hosts exclusive monthly Zoom events, community-oriented podcasts, and trending blog posts. Visit The Data Standard’s website (datastandard.io) for more information!            </h2>
+            </h2>
+        </header>
+        <!-- Injection traget p1-->
+        <button type="button" id='btn1' onclick="show()">Take Quiz!</button>
+        <div class="form-container"></div>
 
-    elements = document.querySelectorAll("share-img.social-share.facebook");
-    Array.prototype.forEach.call(elements, function(el) {
-        el.addEventListener("click", function() {
-            url = "https://www.facebook.com/sharer.php?u=" + pageUrl;
-            socialWindow(url);
-        });
-    });
+        <form id='survey-form' style="display:none">
+            <p id='warn_me' style="color:red">Please double check that you have made a selection for every box before hitting submit!</p>
+            <!--COPY START (for new questions)-->
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I read program documentation on a daily basis.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q1" name="q1" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q1' name='q1' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q1" name="q1" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q1' name='q1' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q1' name='q1' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I find myself on the business side of things rather than the technical side.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q2" name="q2" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q2' name='q2' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q2" name="q2" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q2' name='q2' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q2' name='q2' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I have very strong coding abilities and I can figure anything out on a computer.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q3" name="q3" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q3' name='q3' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q3" name="q3" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q3' name='q3' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q3' name='q3' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I have a good understanding of my field and can navigate beyond the technical side. 
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q4" name="q4" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q4' name='q4' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q4" name="q4" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q4' name='q4' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q4' name='q4' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I think of myself as a very technical person that programs often.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q5" name="q5" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q5' name='q5' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q5" name="q5" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q5' name='q5' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q5' name='q5' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I am outgoing and greatly enjoy meeting and talking to new people.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q6" name="q6" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q6' name='q6' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q6" name="q6" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q6' name='q6' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q6' name='q6' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I pick up new coding languages quickly given that I have extensive experience coding.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q7" name="q7" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q7' name='q7' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q7" name="q7" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q7' name='q7' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q7' name='q7' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                Take away my techical abilities, and I can still thrive in my domain.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q8" name="q8" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q8' name='q8' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q8" name="q8" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q8' name='q8' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q8' name='q8' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I would rather import a library than write low level code.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q9" name="q9" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q9' name='q9' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q9" name="q9" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q9' name='q9' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q9' name='q9' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I easily lose myself in the subject I am researching and I just have to know everything there is to know about the subject.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q10" name="q10" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q10' name='q10' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q10" name="q10" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q10' name='q10' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q10' name='q10' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                Proofs are essential and I work with them frequently. 
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q11" name="q11" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q11' name='q11' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q11" name="q11" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q11' name='q11' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q11' name='q11' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                How you present the argument is just as important as the argument itself.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q12" name="q12" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q12' name='q12' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q12" name="q12" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q12' name='q12' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q12' name='q12' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I could easily explain some complicated statistics questions if asked right now.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q13" name="q13" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q13' name='q13' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q13" name="q13" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q13' name='q13' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q13' name='q13' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I have the most fun creating visualizations more than anything else at work.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q14" name="q14" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q14' name='q14' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q14" name="q14" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q14' name='q14' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q14' name='q14' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I can understand very high level math concepts and I work with them often.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q15" name="q15" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q15' name='q15' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q15" name="q15" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q15' name='q15' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q15' name='q15' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I would rather talk to a person about a problem than code up a solution.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q16" name="q16" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q16' name='q16' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q16" name="q16" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q16' name='q16' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q16' name='q16' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                Math and statistics come naturally to me and numbers are like another language to me. 
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q17" name="q17" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q17' name='q17' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q17" name="q17" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q17' name='q17' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q17' name='q17' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I don’t think that anyone is going to look at my analysis, they’re just going to look at my pictures.                            
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q18" name="q18" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q18' name='q18' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q18" name="q18" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q18' name='q18' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q18' name='q18' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                I make decisions by considering the proabilities of events more than anything else. 
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q19" name="q19" type="radio" value=-5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q19' name='q19' type='radio' value=-2.5>
+                                Disagree
+                                <br>
+                                <input id="q19" name="q19" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q19' name='q19' type='radio' value=5>
+                                Agree
+                                <br>
+                                <input id='q19' name='q19' type='radio' value=10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+        
+                <span>
+                    <fieldset class="questionContainer">
+                        <div class="flex-l items-center justify-between">
+                            <legend class="qtext">
+                                Desiging dashboards and vizualizations are my forte and I spend a lot of time on the details of my vizualizations.
+                            </legend>
+                            <div class="radioButtons">
+                                <input id="q20" name="q20" type="radio" value=5>
+                                Strongly Disagree
+                                <br>
+                                <input id='q20' name='q20' type='radio' value=2.5>
+                                Disagree
+                                <br>
+                                <input id="q20" name="q20" type="radio" value=0>
+                                Neutral
+                                <br>
+                                <input id='q20' name='q20' type='radio' value=-5>
+                                Agree
+                                <br>
+                                <input id='q20' name='q20' type='radio' value=-10>
+                                Strongly Agree
+                            </div>
+                        </div>
+                    </fieldset>
+                </span>
+            </form>
 
-    elements = document.querySelectorAll("share-img.social-share.twitter");
-    Array.prototype.forEach.call(elements, function(el) {
-        el.addEventListener("click", function() {
-            url = "https://twitter.com/intent/tweet?url=" + pageUrl + "&text=" + description;
-            socialWindow(url);
-        });
-    });
 
-    elements = document.querySelectorAll("share-img.social-share.linkedin");
-    Array.prototype.forEach.call(elements, function(el) {
-        el.addEventListener("click", function() {
-            url = "https://www.linkedin.com/shareArticle?mini=true&url=" + pageUrl;
-            socialWindow(url);
-        });
-    });
-};
+        <!-- INJECT TARGET -->
+        <button type="button" id='btn2' onclick="return generateGraph();" style="display: none;">
+            Get Results
+        </button>
+        <div id='results-container'>
+            <canvas id='graph' margin="0" width="125%" height="125%"></canvas>
+            <div id='results-desc'></div>
+        </div>
+        
+        <!-- SPONSORSHIP -->
+        <p class='Sbtt' id='logoIntro'>Sponsored by</p>
+        <a href='https://pandio.com/'>
+            <img id='pLogo' src='/images/pandiologo.png'>
+        </a>
+        <p class='Sbtt'>Pandio enables data-driven decision making across the enterprise and accelerates the adoption of AI. To learn more, visit Pandio.com</p>
 
-function socialWindow(url) {
-    var left = (screen.width - 570) / 2;
-    var top = (screen.height - 570) / 2;
-    var params = "menubar=no,toolbar=no,status=no,width=570,height=570,top=" + top + ",left=" + left;
-    window.open(url,"NewWindow",params);
-};
+        <!--SHAREABLES-->
+        <div class="links">
+            <img class='share-img social-share facebook' src='images/LinkedIn.png'>
+            <img class='share-img social-share twitter' src='images/Facebook-share-icon.png'>
+            <img class='share-img social-share linkedin' src='images/twitterimg.png'>
+        </div>
+        
+          <script>
 
-function show(){
-    // show survey
-    document.getElementById("survey-form").style.display = 'block';
-    document.getElementById("btn2").style.display = 'block';
-    // delete button & subtitle
-    document.getElementById("btn1").style.display = 'none';
-    document.getElementById('subtitle').style.display = 'none';
-    document.getElementById('subtitle1').style.display = 'none';
-};
-
-function generateGraph() {
+          </script>
     
-    // XAXIS
-    XAXIS.push(document.querySelector('input[name="q1"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q2"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q3"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q4"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q5"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q6"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q7"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q8"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q9"]:checked').value);
-    XAXIS.push(document.querySelector('input[name="q10"]:checked').value);
-    // edge case (taking the last 10 elems)
-    if (XAXIS.length > 10) {
-        XAXIS = XAXIS[XAXIS.length-10, XAXIS.length]
-    }
-    // average
-    var xtot = 0
-    for(var i = 0; i < XAXIS.length; i++) {
-        xtot += Number(XAXIS[i]);
-    }
-    XAVG = xtot / XAXIS.length;
-
-    // YAXIS
-    YAXIS.push(document.querySelector('input[name="q11"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q12"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q13"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q14"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q15"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q16"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q17"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q18"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q19"]:checked').value);
-    YAXIS.push(document.querySelector('input[name="q20"]:checked').value);
-    // Edge case (taking the last 10 elems)
-    if (YAXIS.length > 10) {
-        YAXIS = YAXIS[YAXIS.length-10, YAXIS.length]
-    }
-    // average
-    var ytot = 0
-    for(var j = 0; j < YAXIS.length; j++) {
-        ytot += Number(YAXIS[j]);
-    }
-    YAVG = ytot / YAXIS.length;
-    
-    // Flush page after survey
-    var compForm = document.getElementById("survey-form");
-    var resBtn = document.getElementById("btn2");
-    // var subtitle = document.getElementById('subtitle');
-    compForm.remove();
-    resBtn.remove();
-    // subtitle.remove();
-
-    // Generating Chart
-
-    var c = document.getElementById('graph');
-    var ctx = c.getContext("2d");
-    
-    ctx.canvas.width = (window.innerWidth / 2);
-    ctx.canvas.height = (window.innerHeight / 2);
-    ctx.fillStyle = 'red';
-    ctx.fillRect(
-        ctx.canvas.width / 2 - 5 + (XAVG * (0.03068 * ctx.canvas.width)),
-        ctx.canvas.height / 2 - (YAVG * (0.04317 * ctx.canvas.height)),
-        10,
-        10
-    );
-    ctx.globalCompositeOperation = 'destination-over';
-    make_base();
-
-    function make_base() {
-        base_img = new Image();
-        base_img.src = "images/cart.png";
-        base_img.onload = function() {
-            ctx.drawImage(
-                base_img, 
-                0, 0, base_img.width, base_img.height,
-                0, 0, c.width, c.height
-            );
-        }
-    }
-
-    // Check if all are dissagree / strongly disagree
-    if((JSON.stringify(XAXIS) == JSON.stringify(["1", "-1", "1", "-1", "1", "-1", "1", "-1", "1", "-1"])) && JSON.stringify(YAXIS) == JSON.stringify(["1", "-1", "-1", "1", "-1", "1", "-1", "1", "-1", "1"])){
-        ALLFALSE = true
-    }
-    // Check if all are disagree
-    if((JSON.stringify(XAXIS) == JSON.stringify(["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"])) && JSON.stringify(YAXIS) == JSON.stringify(["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"])){
-        ALLFALSE = true
-    }
-
-    // Report Description
-    var wrapper = document.querySelector('#results-desc');
-    var desc = '';
-    // central 
-    if(-2 >= XAVG <= 2 && -2 >= YAVG <= 2){
-        desc = '<h3 id="result">RESULT: PURE DATA SCIENTIST</h3>'
-        desc += "<h3>Overview:</h3>" 
-        desc += '<p>&#9;Data scientists are a little bit of everything when it comes to their roles and skills in the professional world. As leading programmers and engineers with strong backgrounds in mathematics and statistics, an ability to communicate analysis and findings effectively, and an impressive understanding of their relative industries, data scientists have it all. Overall, data scientists play key roles in extracting value from data using skills like data analysis, statistical analysis, and machine learning all while conveying results to business leaders and decision makers. Data science is a relatively new field and is growing rapidly as more companies invest more and more into ML/AI initiatives. Here is a deeper breakdown of the abilities and skills of a data scientist:</p>'
-        desc += "<h3>Mathematician  / Statistician:</h3>" 
-        desc += "<p>&#9;A key component of being an effective data scientist is having a strong understanding of core math and stats concepts. Math and stats are absolutely essential for utilizing machine learning algorithms, solving complex problems in the real world, and performing data analysis. Data scientists often start out as mathematicians and statisticians and easily adapt to the changes because of how interlinked the fields are. Math concepts like linear algebra and calculus are key componentes of all alogirthm applications. </p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-        desc += "<h3>Programmer:</h3>" 
-        desc += "<p>&#9;Along with having a strong math/stats background, data scientists are very proficient programmers, and use programming languages like Python, Java, R, and SQL to drive insights from big datasets they are working with. Rather than the typical roles of software engineers and computer scientists, data scientists focus on utilizing programming for data analysis. Whether it be for data cleaning, mining, or for creating a machine learning algorithm, data scientists use various computer programs to leverage big data and to get the insights their business needs.</p>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"
-        desc += "<h3>Domain Expert:</h3>" 
-        desc += "<p>&#9;While data scientists have a strong technical background, they are also domain experts, and have a strong understanding of their business and industry. In this sense, data scientists have the middle ground between the technical and business side of their company. Having a strong understanding of their respective domain is an extremely unique skill data scientists have, and makes their role even more important to the success of a business.</p>"
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-        desc += "<h3>Data Storyteller:</h3>" 
-        desc += "<p>&#9;Not only do data scientists spend time programming, analyzing data, and implementing machine learning models, but they also have to convey their results to business executives and decision makers. In this sense, data scientists are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. Data storytelling and being able to interpret findings to those who cannot understand the code and program is a key skill data scientists have and differentiates data scientists from computer scientists and software engineers for the most part.</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-    };
-    // upper middle
-    if(-3 >= XAVG <= 2 && YAVG > 2){
-        desc = '<h3 id="result">RESULT: MATHEMATICIAN / STATISTICIAN</h3>'
-        desc += "<h3>Overview:</h3>"
-        desc += "<p>Mathematicians and statisticians have an incredible understanding of machine learning algorithms, predictive modeling, statistical analysis concepts. Topics like linear algebra and calculus are key components of all machine learning algorithms. When it comes to solving complex problems in the real world and creating and applying machine learning models, having a strong understanding of high level math and stats is crucial. Data scientists often start out as mathematicians and statisticians and easily adapt to the changes because of how interlinked the fields are. Mathematicians and statisticians are the greatest minority in our LinkedIn dataset of data scientists, making up about 10% of the total population. Here is a distribution of some of the most common skills of mathematicians and statisticians found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on data storytelling. Data storytellers are able to take data, analyze it, and through visualizations, tell a story about that data to others. Data storytellers go beyond just the analysis and are able to effectively communicate their results to business leaders. In this sense, data storytellers are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. Check out some of the most common skills of data storytellers found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-    };
-    // lower middle
-    if(-3 >= XAVG <= 2 && YAVG < -2){
-        desc = '<h3 id="result">RESULT: DATA STORYTELLER</h3>'
-        desc += "<h3>Overview:</h3>"
-        desc += "<p>Data storytellers are excellent communicators and do much more than just analyze data. As a data storyteller, you are able to take data, and through visualizations, tell a story about that data to others. In the workforce, being a data storyteller is a crucial skill. While there are many people that can perform some sort of data analysis, data storytellers go beyond just the analysis and are able to effectively communicate their results to their colleagues or business leaders. In this sense, data storytellers are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. Data storytellers make up about 25% percent of types of data scientists in our LinkedIn dataset, which is the second least out of the other categories. Here is a distribution of some of the most common skills of data storytellers found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on mathematics and statistics. Concepts like linear algebra and calculus are key components of all machine learning algorithms. When it comes to solving complex problems in the real world and creating and applying machine learning models, having a strong understanding of high level math and stats is crucial, and is a skill that all data scientists must have and be able to use on a daily basis. Check out some of the most common skills of mathematicians and statisticians found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-    };
-    // left middle
-    if(XAVG < -3 && -3 >= YAVG <=3){
-        desc = '<h3 id="result">RESULT: PROGRAMMER</h3>'
-        desc += "<h3>Overview:</h3>" 
-        desc += "<p>The term “Programmer” is very broad in the sense that it encapsulates numerous professions that have a strong emphasis on computer programming, from Software Engineers to Data Engineers and Architects, to even Machine Learning Engineers. Programmers make up about 30% of our data set of data scientists on LinkedIn, which is ranked the second most popular title out of four clusters of types of data scientists. As a programmer, you are responsible to write code to do a multitude of tasks. As a part of their day-to-day work, programmers are more focused on the front-end/back-end development, creating web and mobile applications, developing operating systems, implementing machine learning algorithms and models, and designing innovative software for businesses. Here is a distribution of some of the most common skills of programmers found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on your particular domain expertise. Having a strong understanding of your respective domain is an extremely unique skill that could make your role even more important to the success of a business. Being in the middle ground between the technical side and business side of a company is where true data scientists fall. Check out some of the most common skills of domain experts found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-    };
-    // right middle
-    if(XAVG > 2 && -2 >= YAVG <=2){
-        desc = '<h3 id="result"> RESULT: DOMAIN EXPERT </h3>'
-        desc += "<h3>Overview:</h3>" 
-        desc += "<p>Domain experts are industry leaders, and tend to lean farther away from the technical side of work. They have great abilities when it comes to their respective industry, and can lead and communicate effectively with other business leaders and professionals. Driving business strategy and decision making are a key component of the tasks and roles of a domain expert, and their work contributes to increase profits, spur business growth and development, and reduce risk. In our LinkedIn dataset of data scientists, domain experts were the interesting majority of professionals, accounting for 35% of the data. Overall, domain experts have a stronger understanding of their “niche,” whether it be a particular company, line of work, or business. Here is a distribution of some of the most common skills of domain experts found in our dataset:</p>" 
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on computer programming. Having a strong ability to analyze data and perform computing tasks on the technical side is an extremely unique skill that could make your role even more important to the success of a business. Being in the middle ground between the technical side and business side of a company is where true data scientists fall. Check out some of the most common skills of domain experts found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"    
-    };
-    // top right
-    if(XAVG > 2 && YAVG > 2){
-        desc = '<h3 id="result"> RESULT: MATHEMATICIAN / STATISTICIAN + DOMAIN EXPERT</h3>'
-        desc += "<h3>Overview:</h3>" 
-        desc += "<p>As a mathematician/statistician and a domain expert, you have both a strong background in math and stats, and your respective domain. You are able to understand and apply machine learning algorithms and statistical analysis methods, as well as navigate beyond into the business/domain side of your work. Here is a deeper breakdown of the abilities and skills of a mathematician/statistician and domain expert:</p>"
-        desc += "<h3>Mathematician / Statistician:</h3>"
-        desc += "<p>Mathematicians and statisticians have an incredible understanding of machine learning algorithms, predictive modeling, statistical analysis concepts. Topics like linear algebra and calculus are key components of all machine learning algorithms. When it comes to solving complex problems in the real world and creating and applying machine learning models, having a strong understanding of high level math and stats is crucial. Data scientists often start out as mathematicians and statisticians and easily adapt to the changes because of how interlinked the fields are. Mathematicians and statisticians are the greatest minority in our LinkedIn dataset of data scientists, making up about 10% of the total population. Here is a distribution of some of the most common skills of mathematicians and statisticians found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-        desc += "<h3>Domain Expert:</h3>"
-        desc += "<p>Domain experts are industry leaders, and tend to lean farther away from the technical side of work. They have great abilities when it comes to their respective industry, and can lead and communicate effectively with other business leaders and professionals. Driving business strategy and decision making are a key component of the tasks and roles of a domain expert, and their work contributes to increase profits, spur business growth and development, and reduce risk. In our LinkedIn dataset of data scientists, domain experts were the interesting majority of professionals, accounting for 35% of the data. Overall, domain experts have a stronger understanding of their “niche,” whether it be a particular company, line of work, or business. Here is a distribution of some of the most common skills of domain experts found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on data storytelling and programming. Data storytellers are able to take data, analyze it, and through visualizations, tell a story about that data to others. Data storytellers go beyond just the analysis and are able to effectively communicate their results to business leaders. In this sense, data storytellers are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. At the same time, having a strong ability to analyze data and perform computing tasks on the technical side is an extremely unique skill that could make your role even more important to the success of a business. Check out some of the most common skills of data storytellers and programmers found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"
-    };
-    // top left
-    if(XAVG < -2 && YAVG > 2){
-        desc = '<h3 id="result"> RESULT: MATHEMATICIAN / STATISTICIAN + PROGRAMMER</h3>'
-        desc += "<h3>Overview:</h3>" 
-        desc += "<p>As a mathematician/statistician and a programmer, you have a very strong technical ability. You are able to understand and apply machine learning algorithms and statistical analysis methods, as well as use programming languages to analyze and gain insights from big datasets. Here is a deeper breakdown of the abilities and skills of a mathematician/statistician and domain expert:</p>"
-        desc += "<h3>Mathematician / Statistician:</h3>"
-        desc += "<p>Mathematicians and statisticians have an incredible understanding of machine learning algorithms, predictive modeling, statistical analysis concepts. Topics like linear algebra and calculus are key components of all machine learning algorithms. When it comes to solving complex problems in the real world and creating and applying machine learning models, having a strong understanding of high level math and stats is crucial. Data scientists often start out as mathematicians and statisticians and easily adapt to the changes because of how interlinked the fields are. Mathematicians and statisticians are the greatest minority in our LinkedIn dataset of data scientists, making up about 10% of the total population. Here is a distribution of some of the most common skills of mathematicians and statisticians found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-        desc += "<h3>Programmer:</h3>" 
-        desc += "<p>The term “Programmer” is very broad in the sense that it encapsulates numerous professions that have a strong emphasis on computer programming, from Software Engineers to Data Engineers and Architects, to even Machine Learning Engineers. Programmers make up about 30% of our data set of data scientists on LinkedIn, which is ranked the second most popular title out of four clusters of types of data scientists. As a programmer, you are responsible to write code to do a multitude of tasks. As a part of their day-to-day work, programmers are more focused on the front-end/back-end development, creating web and mobile applications, developing operating systems, implementing machine learning algorithms and models, and designing innovative software for businesses. Here is a distribution of some of the most common skills of programmers found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on data storytelling and domain expertise. Data storytellers are able to take data, analyze it, and through visualizations, tell a story about that data to others. Data storytellers go beyond just the analysis and are able to effectively communicate their results to business leaders. In this sense, data storytellers are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. At the same time, having a strong understanding of your respective domain is an extremely unique skill that could make your role even more important to the success of a business. Being in the middle ground between the technical side and business side of a company is where true data scientists fall. Check out some of the most common skills of data storytellers and domain experts found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-    };
-    // bottom right
-    if(XAVG > 2 && YAVG < -2){
-        desc = '<h3 id="result"> RESULT: DATA STORYTELLER + DOMAIN EXPERT</h3>'
-        desc += "<h3>Overview:</h3>" 
-        desc += "<p>As a data storyteller and domain expert, you are able to create effective data visualizations and relay your insights to colleagues and business leaders and executives effectively. At the same time, you have the ability to go beyond the technical side and work as a leader with business executives and decision makers. Here is a deeper breakdown of the abilities and skills of a data storyteller and domain expert:</p>"
-        desc += "<h3>Data Storyteller:</h3>" 
-        desc += "<p>Data storytellers are excellent communicators and do much more than just analyze data. As a data storyteller, you are able to take data, and through visualizations, tell a story about that data to others. In the workforce, being a data storyteller is a crucial skill. While there are many people that can perform some sort of data analysis, data storytellers go beyond just the analysis and are able to effectively communicate their results to their colleagues or business leaders. In this sense, data storytellers are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. Data storytellers make up about 25% percent of types of data scientists in our LinkedIn dataset, which is the second least out of the other categories. Here is a distribution of some of the most common skills of data storytellers found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-        desc += "<h3>Domain Expert:</h3>" 
-        desc += "<p>Domain experts are industry leaders, and tend to lean farther away from the technical side of work. They have great abilities when it comes to their respective industry, and can lead and communicate effectively with other business leaders and professionals. Driving business strategy and decision making are a key component of the tasks and roles of a domain expert, and their work contributes to increase profits, spur business growth and development, and reduce risk. In our LinkedIn dataset of data scientists, domain experts were the interesting majority of professionals, accounting for 35% of the data. Overall, domain experts have a stronger understanding of their “niche,” whether it be a particular company, line of work, or business. Here is a distribution of some of the most common skills of domain experts found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on math/stats, and programming. Concepts like linear algebra and calculus are key components of all machine learning algorithms. When it comes to solving complex problems in the real world and creating and applying machine learning models, having a strong understanding of high level math and stats is crucial, and is a skill that all data scientists must have and be able to use on a daily basis. At the same time, having a strong ability to analyze data and perform computing tasks on the technical side is an extremely unique skill that could make your role even more important to the success of a business. Check out some of the most common skills of mathematicians/statisticians and programmers found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"
-    };
-    // bottom left
-    if(XAVG < -2 && YAVG < -2){
-        desc = '<h3 id="result"> RESULT: PROGRAMMER + DATA STORYTELLER</h3>'
-        desc += "<h3>Overview:</h3>" 
-        desc += "<p>As a programmer and data storyteller, you are able to utilize various computer programming languages to analyze and gain insights from big datasets. At the same time, you are able to create effective data visualizations and relay your insights to colleagues and business leaders and executives effectively. Here is a deeper breakdown of the abilities and skills of a programmer and data storyteller:</p>"
-        desc += "<h3>Programmer:</h3>" 
-        desc += "<p>The term “Programmer” is very broad in the sense that it encapsulates numerous professions that have a strong emphasis on computer programming, from Software Engineers to Data Engineers and Architects, to even Machine Learning Engineers. Programmers make up about 30% of our data set of data scientists on LinkedIn, which is ranked the second most popular title out of four clusters of types of data scientists. As a programmer, you are responsible to write code to do a multitude of tasks. As a part of their day-to-day work, programmers are more focused on the front-end/back-end development, creating web and mobile applications, developing operating systems, implementing machine learning algorithms and models, and designing innovative software for businesses. Here is a distribution of some of the most common skills of programmers found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"
-        desc += "<h3>Data Storyteller:</h3>" 
-        desc += "<p>Data storytellers are excellent communicators and do much more than just analyze data. As a data storyteller, you are able to take data, and through visualizations, tell a story about that data to others. In the workforce, being a data storyteller is a crucial skill. While there are many people that can perform some sort of data analysis, data storytellers go beyond just the analysis and are able to effectively communicate their results to their colleagues or business leaders. In this sense, data storytellers are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. Data storytellers make up about 25% percent of types of data scientists in our LinkedIn dataset, which is the second least out of the other categories. Here is a distribution of some of the most common skills of data storytellers found in our dataset:</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-        desc += "<p>Our algorithm determined that in order to become a more well-rounded data scientist, it might serve you to expand your skills on math/stats and domain expertise. Concepts like linear algebra and calculus are key components of all machine learning algorithms. When it comes to solving complex problems in the real world and creating and applying machine learning models, having a strong understanding of high level math and stats is crucial, and is a skill that all data scientists must have and be able to use on a daily basis. At the same time, having a strong understanding of your respective domain is an extremely unique skill that could make your role even more important to the success of a business. Being in the middle ground between the technical side and business side of a company is where true data scientists fall. Check out some of the most common skills of mathematicians/statisticians and domain experts found in our LinkedIn dataset:</p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-    };
-
-    // IF ALLFALSE = TRUE CASE
-    if(ALLFALSE == true) {
-        document.getElementById("graph").style.display = 'none';
-        desc = '<h3 id="result"> The survey results show that you strongly disagreed to every question, which may mean you are in the wrong place. If you want to become a data scientist, check out our description of data scientists as well as the skills required to become one below: </h3>'
-        desc += '<p>&#9;Data scientists are a little bit of everything when it comes to their roles and skills in the professional world. As leading programmers and engineers with strong backgrounds in mathematics and statistics, an ability to communicate analysis and findings effectively, and an impressive understanding of their relative industries, data scientists have it all. Overall, data scientists play key roles in extracting value from data using skills like data analysis, statistical analysis, and machine learning all while conveying results to business leaders and decision makers. Data science is a relatively new field and is growing rapidly as more companies invest more and more into ML/AI initiatives. Here is a deeper breakdown of the abilities and skills of a data scientist:</p>'
-        desc += "<h3>Mathematician  / Statistician:</h3>" 
-        desc += "<p>&#9;A key component of being an effective data scientist is having a strong understanding of core math and stats concepts. Math and stats are absolutely essential for utilizing machine learning algorithms, solving complex problems in the real world, and performing data analysis. Data scientists often start out as mathematicians and statisticians and easily adapt to the changes because of how interlinked the fields are. Math concepts like linear algebra and calculus are key componentes of all alogirthm applications. </p>"
-        desc += "<img class='charts' src='/images/math_stats.png'></img>"
-        desc += "<h3>Programmer:</h3>" 
-        desc += "<p>&#9;Along with having a strong math/stats background, data scientists are very proficient programmers, and use programming languages like Python, Java, R, and SQL to drive insights from big datasets they are working with. Rather than the typical roles of software engineers and computer scientists, data scientists focus on utilizing programming for data analysis. Whether it be for data cleaning, mining, or for creating a machine learning algorithm, data scientists use various computer programs to leverage big data and to get the insights their business needs.</p>"
-        desc += "<img class='charts' src='/images/programmers.png'></img>"
-        desc += "<h3>Domain Expert:</h3>" 
-        desc += "<p>&#9;While data scientists have a strong technical background, they are also domain experts, and have a strong understanding of their business and industry. In this sense, data scientists have the middle ground between the technical and business side of their company. Having a strong understanding of their respective domain is an extremely unique skill data scientists have, and makes their role even more important to the success of a business.</p>"
-        desc += "<img class='charts' src='/images/domain_experts.png'></img>"
-        desc += "<h3>Data Storyteller:</h3>" 
-        desc += "<p>&#9;Not only do data scientists spend time programming, analyzing data, and implementing machine learning models, but they also have to convey their results to business executives and decision makers. In this sense, data scientists are experts when it comes to relaying their findings through data visualizations in a way that business leaders can interpret, understand, and implement. Data storytelling and being able to interpret findings to those who cannot understand the code and program is a key skill data scientists have and differentiates data scientists from computer scientists and software engineers for the most part.</p>"
-        desc += "<img class='charts' src='/images/storytellers.png'></img>"
-    }
+    </body>
 
 
-    desc += '<form name="submit-to-google-sheet">' +
-        '<table>' +
-            '<tr>' +            
-                '<p style="margin-top:20%" class="callToAction Top">Did you enjoy taking our survey?  Lets get you connected to The Data Standard.</p>' +
-                '<p class="callToAction">The Data Standard is the premier community of data thought leaders in every vertical. On its platform, The Data Standard hosts unique podcasts, blog content, and monthly thought leadership events featuring many leading industry data science professionals from companies like Microsoft, IBM, and more.</p>' +
-                '<p class="callToAction">Please enter your email and name so we can reach out to you and get you involved in the Data Standard’s Premium Community.</p>' +
-            '</tr>' +
-            '<tr>' +
-                '<td>Email: </td>' +
-                '<td>' +
-                    '<input name="email" class="form-input"type="email" placeholder="example@domain.com" required>' +
-                '</td>' +
-            '</tr>' +
-            '<tr>' +
-                '<td>Name: </td>' +
-                '<td>' +
-                    '<input name="name" class="form-input" type="text" placeholder="John Smith"><br>' +
-                '</td>' +
-            '</tr>' +
-        '</table>' +
-        '<button id="emailSubmit" class="submitFormBtn" type="submit">Get Connected!</button>' +
-    '</form>'
-
-    wrapper.innerHTML = desc;
-
-const scriptURL = 'https://script.google.com/a/macros/datastandard.io/s/AKfycby4qJDC1ZxgMVsE6KmTJ2Cluucy5AFBmjmzCmHZ5_j2FnmZcBUD-UjebA/exec'
-const form = document.forms['submit-to-google-sheet']
-
-form.addEventListener('submit', e => {
-    e.preventDefault()
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-    .then(response => console.log('Success!', response))
-    .catch(error => console.error('Error!', error.message))
-})
-
-    // Sharables (button)
-    // https://www.progress.com/blogs/make-your-website-content-shareable-with-social-media-sharing-buttons
-};
