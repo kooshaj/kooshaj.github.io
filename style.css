@@ -1,0 +1,235 @@
+.questionContainer {
+    padding-top: 10px;
+    margin: 5px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+label {
+    display: block;
+    width: x;
+    height: y;
+    text-align:left;
+    font-weight: bolder;
+    font-size:large;
+}
+
+legend {
+    display: block;
+    width:x;
+    height:y;
+    text-align:left;
+    font-size:x-large;
+}
+
+h1 {
+    text-align: center;
+}
+
+#logoAndTitle img, #logoAndTitle h1{
+    display:inline-block;
+}
+
+#logo {
+    display:block;
+    margin-left: 25%;
+    margin-top: 10%;
+    margin-right: 25%;
+    width: 50%;
+}
+
+#logoAndTitle {
+    display:block;
+    margin:0 auto;
+}
+
+#Title {
+    font-size: 300%;
+    padding:10px;
+    padding-bottom: 10px;
+    margin: 0 auto;
+    margin-bottom: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+}
+
+#buttonWraper {
+    width: 100%;
+    height: 100%;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+button {
+    height: 75px;
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+    font-size: 30px;
+    font-weight: bolder;
+    background-color: LightGrey;
+    margin-top: 2%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.radioButtons {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding-top: 1%;
+    margin: 1%
+}
+
+.qtext {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: normal;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 110%;
+}
+
+#results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+p {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.charts {
+    margin: 0 auto;
+    width:90%;
+    display: flex;
+    justify-content: center;
+}
+
+h3 {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: x-large;
+    margin-left: 15%;
+    margin-bottom: 0;
+}
+
+.Sbtt {
+    text-align: center;
+}
+
+#logoIntro {
+    font-weight: bolder;
+    padding-bottom: 0;
+    margin-top: 2%;
+}
+
+#pLogo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+#warn_me {
+    text-align: center;
+    font-weight: bolder;
+}
+
+.submitFormBtn {
+    height: 30px;
+    width: 120px;
+    font-size: small;
+}
+
+table {
+    margin:auto;
+}
+
+td{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.form-input {
+    width: 200px;
+    height: 20px;
+    margin-top: 1%;
+}
+
+body {
+width: 95%;
+max-width: 700px;
+font-family: tahoma, sans-serif;
+font-size: 14px;
+line-height: 1.4;
+padding: 0 10px 20px 10px;
+margin: 0 auto 0 auto;
+}
+
+h1 {
+font-size: 24px;
+text-align: center;
+}
+
+h1 span {
+display: block;
+font-size: 18px;
+font-weight: normal;
+}
+
+code {
+background-color: #eee;
+padding: 0 3px 0 3px;
+}
+
+.notes {
+width: 100%;
+margin: 0 0 20px 0;
+}
+
+.share-img{
+    width: 10%;
+    display: inline;
+    margin-left:17%
+}
+
+#logoIntro{
+    margin-top: 20%;
+}
+
+#emailSubmit {
+    font-size: normal;
+}
+
+.callToAction{
+    text-align: center; 
+    font-weight: bolder;
+}
+
+#result {
+    font-size: 150%;
+    padding:10px;
+    padding-bottom: 10px;
+    margin: 0 auto;
+    margin-bottom: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+}
+
+.callToAction .top {
+    font-size: large;
+}
